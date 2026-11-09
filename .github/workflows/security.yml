@@ -1,0 +1,77 @@
+
+name: Security Checks
+
+on:
+  push:
+    branches:
+      - main
+      - security/lab7-audit
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  sast:
+    name: SAST - Semgrep
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Semgrep
+        run: python -m pip install "semgrep==1.184.0"
+
+      - name: Run SAST analysis
+        run: |
+          semgrep scan \
+            --config p/python \
+            --config p/security-audit \
+            --error \
+            --exclude .env \
+            --exclude security/temp \
+            --exclude security/reports \
+            .
+
+  sca:
+    name: SCA - Trivy
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scan vulnerable dependencies
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+          format: table
+
+  secrets:
+    name: Secret Scanning - Trivy
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scan repository for secrets
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: secret
+          exit-code: "1"
+          format: table

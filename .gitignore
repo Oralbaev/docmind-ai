@@ -14,3 +14,7 @@ __pycache__/
 .idea/
 
 *.log
+
+# Security audit artifacts
+/security/temp/
+/security/reports/
