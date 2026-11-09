@@ -1,0 +1,51 @@
+
+# Lab 7 — Security Code Review
+
+## Project
+DocMind AI — Python/FastAPI backend.
+
+## Security Tools
+- Semgrep 1.184.0 — SAST
+- Trivy 0.76.2 — SCA and Secret Scanning
+- GitHub Actions — CI/CD
+
+## SAST Results
+- 31 Git-tracked files scanned
+- 200 rules executed
+- 0 findings
+
+## SCA Results
+- Initial development environment: 5 MEDIUM findings
+- Isolated application environment: 0 findings
+- Dependency integrity: no conflicts
+
+The initial findings were associated with packages
+introduced by development/security tooling.
+
+## Secret Scanning
+- 0 findings in scanned files
+- Local .env excluded
+- .env ignored by Git
+
+## SBOM
+- Format: CycloneDX 1.7
+- Components: 99
+- Vulnerabilities reported: 0
+
+## CI/CD
+Three automated checks:
+1. Semgrep SAST
+2. Trivy SCA
+3. Trivy Secret Scanning
+
+## Limitations
+- Automated scanners cannot detect every vulnerability.
+- Community SAST rules have limited coverage.
+- Local secrets were excluded from scanning.
+- The SBOM covers Python dependencies only.
+- SCA in CI blocks HIGH and CRITICAL findings.
+
+## Peer Review
+- Reviewer: Pending
+- Status: Pending
+- Approval: Pending
