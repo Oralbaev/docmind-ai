@@ -2,6 +2,7 @@ import uuid
 from pathlib import Path
 from typing import Annotated
 
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -21,6 +22,14 @@ from app.models.document_chunk import DocumentChunk
 from app.schemas.document import DocumentUploadResponse
 from app.services.document_parser import parse_document
 from app.services.chunker import create_chunks
+from app.services.embedding_service import EmbeddingService
+from app.schemas.document import (
+    SearchRequest,
+    SearchResponse,
+    SearchResult,
+)
+
+from app.services.vector_search import search_similar_chunks
 
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
@@ -73,7 +82,7 @@ async def upload_document(
             filename,
             content,
         )
-    except (ValueError, UnicodeError, Exception) as exc:
+    except Exception as exc:
         raise HTTPException(
             status_code=422,
             detail="Could not parse document",
@@ -87,31 +96,82 @@ async def upload_document(
             detail="Document contains no extractable text",
         )
 
-    document = Document(
-        user_id=user_id,
-        filename=filename,
-    )
+    service = EmbeddingService()
 
-    db.add(document)
+    try:
+        embeddings = []
 
-    await db.flush()
+        for chunk in chunks:
+            embedding = await service.embed_document(chunk.content)
+            embeddings.append(embedding)
 
-    db.add_all(
-        DocumentChunk(
-            document_id=document.id,
-            chunk_index=chunk.index,
-            content=chunk.content,
-            page_number=chunk.page_number,
-            embedding=None,
+        document = Document(
+            user_id=user_id,
+            filename=filename,
         )
-        for chunk in chunks
-    )
 
-    await db.commit()
+        db.add(document)
+        await db.flush()
+
+        db.add_all(
+            DocumentChunk(
+                document_id=document.id,
+                chunk_index=chunk.index,
+                content=chunk.content,
+                page_number=chunk.page_number,
+                embedding=embedding,
+            )
+            for chunk, embedding in zip(chunks, embeddings)
+        )
+
+        await db.commit()
+
+    except Exception:
+        await db.rollback()
+        raise
+
+    finally:
+        await service.close()
 
     return DocumentUploadResponse(
         document_id=document.id,
         filename=filename,
         chunks_count=len(chunks),
         status="uploaded",
+    )
+    
+@router.post("/search", response_model=SearchResponse)
+async def search_documents(
+    request: SearchRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    service = EmbeddingService()
+
+    try:
+        query_embedding = await service.embed_query(
+            request.query
+        )
+
+    finally:
+        await service.close()
+
+    rows = await search_similar_chunks(
+        db=db,
+        user_id=request.user_id,
+        query_embedding=query_embedding,
+        top_k=request.top_k,
+    )
+
+    return SearchResponse(
+        results=[
+            SearchResult(
+                document_id=chunk.document_id,
+                filename=filename,
+                chunk_index=chunk.chunk_index,
+                page_number=chunk.page_number,
+                content=chunk.content,
+                similarity=1.0 - distance,
+            )
+            for chunk, filename, distance in rows
+        ]
     )
