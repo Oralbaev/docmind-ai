@@ -9,6 +9,27 @@ DocMind AI — Python/FastAPI backend.
 - Trivy 0.76.2 — SCA and Secret Scanning
 - GitHub Actions — CI/CD
 
+## Quick Access
+
+| Resource | Link |
+|---|---|
+| CI/CD Security Checks | [GitHub Actions](https://github.com/Oralbaev/docmind-ai/actions/workflows/security.yml) |
+| Security Policy | [SECURITY.md](../SECURITY.md) |
+| Security Audit PR | [Pull Request #1](https://github.com/Oralbaev/docmind-ai/pull/1) |
+
+## Security Baseline
+
+| Check | Last recorded result |
+|---|---|
+| SAST | 0 findings |
+| SCA (isolated Python environment) | 0 known CVEs |
+| Secret Scanning | 0 findings in scanned files |
+| Dependency Integrity | No conflicts |
+| SBOM | CycloneDX 1.7, 99 components |
+
+These are historical audit results, not live status indicators.
+Use GitHub Actions for the latest CI results.
+
 ## SAST Results
 - 31 Git-tracked files scanned
 - 200 rules executed
