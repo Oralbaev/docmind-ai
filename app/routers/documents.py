@@ -30,6 +30,7 @@ from app.schemas.document import (
 )
 
 from app.services.vector_search import search_similar_chunks
+from app.core.dependencies import CurrentUser
 
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
@@ -45,7 +46,7 @@ ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt"}
 )
 async def upload_document(
     file: Annotated[UploadFile, File()],
-    user_id: Annotated[uuid.UUID, Form()],
+    user: CurrentUser,
     db: AsyncSession = Depends(get_db),
 ):
     filename = Path(file.filename or "").name
@@ -55,14 +56,6 @@ async def upload_document(
         raise HTTPException(
             status_code=415,
             detail="Unsupported file format",
-        )
-
-    user = await db.get(User, user_id)
-
-    if user is None:
-        raise HTTPException(
-            status_code=404,
-            detail="User not found",
         )
 
     try:
@@ -106,7 +99,7 @@ async def upload_document(
             embeddings.append(embedding)
 
         document = Document(
-            user_id=user_id,
+            user_id=user.id,
             filename=filename,
         )
 
@@ -143,6 +136,7 @@ async def upload_document(
 @router.post("/search", response_model=SearchResponse)
 async def search_documents(
     request: SearchRequest,
+    user: CurrentUser,
     db: AsyncSession = Depends(get_db),
 ):
     service = EmbeddingService()
@@ -157,7 +151,7 @@ async def search_documents(
 
     rows = await search_similar_chunks(
         db=db,
-        user_id=request.user_id,
+        user_id=user.id,
         query_embedding=query_embedding,
         top_k=request.top_k,
     )

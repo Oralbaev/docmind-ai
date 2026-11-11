@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     gemini_api_key: str
     gemini_embedding_model: str = "gemini-embedding-2"
     gemini_llm_model: str = "gemini-3.5-flash-lite"
+    jwt_secret_key: str
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -7,6 +6,7 @@ from app.schemas.rag import AskRequest, AskResponse, SourceResponse
 from app.services.embedding_service import EmbeddingService
 from app.services.llm_service import LLMService
 from app.services.rag_service import RAGService
+from app.core.dependencies import CurrentUser
 
 
 router = APIRouter(prefix="/rag", tags=["RAG"])
@@ -15,6 +15,7 @@ router = APIRouter(prefix="/rag", tags=["RAG"])
 @router.post("/ask", response_model=AskResponse)
 async def ask_question(
     request: AskRequest,
+    user: CurrentUser,
     db: AsyncSession = Depends(get_db),
 ):
     embedding_service = EmbeddingService()
@@ -28,7 +29,7 @@ async def ask_question(
 
         result = await rag.ask(
             db=db,
-            user_id=request.user_id,
+            user_id=user.id,
             question=request.question,
             top_k=request.top_k,
         )
