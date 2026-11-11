@@ -21,3 +21,7 @@ __pycache__/
 
 evaluation/chunks_dump.txt
 data/eval_docs/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/tsconfig.tsbuildinfo
