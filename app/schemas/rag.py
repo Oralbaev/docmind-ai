@@ -1,7 +1,6 @@
 import uuid
 
 from pydantic import BaseModel, Field
-from app.core.dependencies import CurrentUser
 
 
 class AskRequest(BaseModel):
@@ -21,3 +20,10 @@ class SourceResponse(BaseModel):
 class AskResponse(BaseModel):
     answer: str
     sources: list[SourceResponse]
+
+
+class AgentAskResponse(AskResponse):
+    # answered | no_answer | ungrounded | off_topic
+    outcome: str
+    # Шаги графа: удобно для отладки и для показа в интерфейсе
+    trace: list[str]
