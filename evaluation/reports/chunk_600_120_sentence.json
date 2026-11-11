@@ -1,0 +1,1611 @@
+{
+  "meta": {
+    "timestamp": "2026-11-11T15:12:31.362413+00:00",
+    "git_commit": "0ec3a7a",
+    "top_k": 5,
+    "n_questions": 31,
+    "note": "sentence-aware 600/120"
+  },
+  "aggregate": {
+    "recall@1": 0.8387,
+    "precision@1": 0.871,
+    "ndcg@1": 0.871,
+    "recall@3": 0.9839,
+    "precision@3": 0.4086,
+    "ndcg@3": 0.9377,
+    "recall@5": 1.0,
+    "precision@5": 0.2516,
+    "ndcg@5": 0.9462,
+    "mrr": 0.9247
+  },
+  "by_type": {
+    "factoid": {
+      "recall@1": 0.92,
+      "precision@1": 0.92,
+      "ndcg@1": 0.92,
+      "recall@3": 1.0,
+      "precision@3": 0.3733,
+      "ndcg@3": 0.9652,
+      "recall@5": 1.0,
+      "precision@5": 0.224,
+      "ndcg@5": 0.9652,
+      "mrr": 0.9533
+    },
+    "multi_hop": {
+      "recall@1": 0.5,
+      "precision@1": 0.6667,
+      "ndcg@1": 0.6667,
+      "recall@3": 0.9167,
+      "precision@3": 0.5556,
+      "ndcg@3": 0.8229,
+      "recall@5": 1.0,
+      "precision@5": 0.3667,
+      "ndcg@5": 0.8669,
+      "mrr": 0.8056
+    }
+  },
+  "latency_ms_p50": 1642.1,
+  "dataset_warnings": [],
+  "worst_questions": [
+    {
+      "id": "q001",
+      "question": "Сколько дней длится ежегодный оплачиваемый отпуск в Нордвинде?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q002",
+      "question": "За сколько времени нужно подать заявление, чтобы уйти в отпуск?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q003",
+      "question": "Сколько неиспользованных дней отпуска можно перенести и до какого срока их надо потратить?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q004",
+      "question": "Заплатят ли деньги, если я не пойду в отпуск?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q005",
+      "question": "Что будет с отпуском, если я заболею, пока отдыхаю?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q007",
+      "question": "До какой температуры чайник греет воду для зелёного чая?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q008",
+      "question": "Как долго чайник может держать воду горячей?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q009",
+      "question": "Почему чайник не видит мою Wi-Fi сеть на высокой частоте?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q010",
+      "question": "Что делать, если на чайнике появилась ошибка E3?",
+      "recall@5": 1.0
+    },
+    {
+      "id": "q011",
+      "question": "Как часто и с помощью чего нужно удалять накипь в чайнике?",
+      "recall@5": 1.0
+    }
+  ],
+  "per_question": [
+    {
+      "id": "q001",
+      "type": "factoid",
+      "question": "Сколько дней длится ежегодный оплачиваемый отпуск в Нордвинде?",
+      "latency_ms": 2040.8,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "vacation_policy.txt#0",
+          "score": 0.8135204315185605,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#3",
+          "score": 0.7579258391768741,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.7013599810552943,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.6948354658386401,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5474797700381934,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q002",
+      "type": "factoid",
+      "question": "За сколько времени нужно подать заявление, чтобы уйти в отпуск?",
+      "latency_ms": 1553.3,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 0.0,
+        "precision@1": 0.0,
+        "ndcg@1": 0.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 0.5,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 0.5,
+        "mrr": 0.3333333333333333
+      },
+      "top_chunks": [
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.7702442311076015,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#3",
+          "score": 0.7539530240381652,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#0",
+          "score": 0.7507714179839559,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.7145670140822103,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.5988691095581897,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q003",
+      "type": "multi_hop",
+      "question": "Сколько неиспользованных дней отпуска можно перенести и до какого срока их надо потратить?",
+      "latency_ms": 1263.3,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 0.5,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.7838974828690546,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.7771231232317998,
+          "covers": [
+            1
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#3",
+          "score": 0.741161589407266,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#0",
+          "score": 0.6988786128804549,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.5955255805113359,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q004",
+      "type": "factoid",
+      "question": "Заплатят ли деньги, если я не пойду в отпуск?",
+      "latency_ms": 1255.9,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.7139780690592039,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#3",
+          "score": 0.7054937445197544,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.6973986264943678,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#0",
+          "score": 0.6759536492687007,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.5698759126368008,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q005",
+      "type": "factoid",
+      "question": "Что будет с отпуском, если я заболею, пока отдыхаю?",
+      "latency_ms": 1197.0,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "vacation_policy.txt#3",
+          "score": 0.7343271607791305,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.6842226636936333,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.6792122249531611,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#0",
+          "score": 0.6656119035643737,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.5550744735662565,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q007",
+      "type": "factoid",
+      "question": "До какой температуры чайник греет воду для зелёного чая?",
+      "latency_ms": 1217.0,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 0.0,
+        "precision@1": 0.0,
+        "ndcg@1": 0.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 0.6309297535714575,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 0.6309297535714575,
+        "mrr": 0.5
+      },
+      "top_chunks": [
+        {
+          "chunk": "kettle_manual.txt#1",
+          "score": 0.7593563817397937,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.7554428259934863,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.6882066874011308,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.6734746658044165,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5424901691114337,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q008",
+      "type": "factoid",
+      "question": "Как долго чайник может держать воду горячей?",
+      "latency_ms": 1692.6,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "kettle_manual.txt#1",
+          "score": 0.6855177725596665,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.6464324665907191,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.6134866801532077,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.6033161026332096,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.48622146330944704,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q009",
+      "type": "factoid",
+      "question": "Почему чайник не видит мою Wi-Fi сеть на высокой частоте?",
+      "latency_ms": 1708.8,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "kettle_manual.txt#1",
+          "score": 0.7762724553129413,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.7255272000399641,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.7147798622179563,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.6784034521089093,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5473837739506462,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q010",
+      "type": "factoid",
+      "question": "Что делать, если на чайнике появилась ошибка E3?",
+      "latency_ms": 1405.3,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.7750453293215444,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "kettle_manual.txt#1",
+          "score": 0.7128789932440122,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.6986371107260301,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.683608764311522,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5495245875628316,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q011",
+      "type": "multi_hop",
+      "question": "Как часто и с помощью чего нужно удалять накипь в чайнике?",
+      "latency_ms": 1253.6,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 0.0,
+        "precision@1": 0.0,
+        "ndcg@1": 0.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 0.6309297535714575,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 0.6309297535714575,
+        "mrr": 0.5
+      },
+      "top_chunks": [
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.724453981448602,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.7134300811970188,
+          "covers": [
+            0,
+            1
+          ]
+        },
+        {
+          "chunk": "kettle_manual.txt#1",
+          "score": 0.6713214533286953,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.6496040464391782,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.5389354550203962,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q012",
+      "type": "factoid",
+      "question": "Сколько действует гарантия на чайник?",
+      "latency_ms": 1784.5,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.695154097006796,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "kettle_manual.txt#1",
+          "score": 0.672450862065273,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.6630765607725009,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.6422590657009376,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.5389731526374855,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q014",
+      "type": "factoid",
+      "question": "Сколько нужно платить за аренду офиса каждый месяц?",
+      "latency_ms": 1534.0,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.6588984727859544,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#0",
+          "score": 0.6556549091956193,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.6298896890944439,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.6015811082873758,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.5529124407224403,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q015",
+      "type": "factoid",
+      "question": "Какую площадь занимает арендуемое помещение?",
+      "latency_ms": 2048.1,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "lease_agreement.txt#0",
+          "score": 0.7149261406108172,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.6774485918818226,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.6661018530191107,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.6527840106020072,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.5606412481115266,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q016",
+      "type": "factoid",
+      "question": "Какая неустойка начисляется, если арендатор задержал платёж?",
+      "latency_ms": 1269.3,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.7896592177179779,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.7562834590514116,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.7336420018548406,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#0",
+          "score": 0.6866102520893997,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.613250989943428,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q017",
+      "type": "factoid",
+      "question": "За какой срок нужно предупредить о расторжении договора аренды?",
+      "latency_ms": 1272.9,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.7553109222279933,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.6907561421394348,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.6728709741157886,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#0",
+          "score": 0.6462014143226891,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.592400826835452,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q018",
+      "type": "multi_hop",
+      "question": "Какой залог вносит арендатор и когда его вернут?",
+      "latency_ms": 1835.8,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 0.5,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.7687276828941645,
+          "covers": [
+            1
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.7390661187487687,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.697856515007273,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#0",
+          "score": 0.6520340001685366,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#3",
+          "score": 0.6051005125047884,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q019",
+      "type": "factoid",
+      "question": "Что будет, если сдать помещение другому лицу без разрешения хозяина?",
+      "latency_ms": 2086.6,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.707801036631887,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.6852633698989851,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#0",
+          "score": 0.6602728783271091,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.6383706166302604,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.5924797190762163,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q021",
+      "type": "factoid",
+      "question": "Какой уровень логов включён в продакшене по умолчанию?",
+      "latency_ms": 1384.3,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.7808128129952149,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.7279753790019136,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#1",
+          "score": 0.7166485269907852,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#3",
+          "score": 0.6546525217759506,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.6071053594507279,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q022",
+      "type": "factoid",
+      "question": "В каком заголовке передаётся идентификатор запроса между сервисами?",
+      "latency_ms": 1957.8,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "logging_guide.txt#1",
+          "score": 0.7764246863559573,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.7703887224197881,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.6333955863851853,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#3",
+          "score": 0.6159750037297602,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5775210235925229,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q023",
+      "type": "factoid",
+      "question": "Какую информацию запрещено писать в логи?",
+      "latency_ms": 1842.5,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "logging_guide.txt#1",
+          "score": 0.7577623806383385,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.7141218313393631,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.697618194775696,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#3",
+          "score": 0.6250967047964813,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.5929567151925035,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q024",
+      "type": "multi_hop",
+      "question": "Как долго логи лежат в основной системе и как долго потом в архиве?",
+      "latency_ms": 1422.5,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.8135790713775775,
+          "covers": [
+            0,
+            1
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#1",
+          "score": 0.779008263054007,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.7287175553882438,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#3",
+          "score": 0.6766872809343883,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.6376973174630914,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q025",
+      "type": "factoid",
+      "question": "При скольких ошибках в минуту срабатывает алерт?",
+      "latency_ms": 1259.5,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.7012789543631921,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#1",
+          "score": 0.6488175601471936,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.6348354381126868,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.6095428438357081,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#2",
+          "score": 0.6063984740260002,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q026",
+      "type": "factoid",
+      "question": "Какого размера может быть один файл с логами?",
+      "latency_ms": 1642.1,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.7636793613152045,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "logging_guide.txt#1",
+          "score": 0.7290000258088639,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.7054867254528523,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#3",
+          "score": 0.6453413904455232,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5874502383498869,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q028",
+      "type": "factoid",
+      "question": "До какого числа нужно зарегистрировать команду на хакатон?",
+      "latency_ms": 1720.9,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.7861579397979437,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.7585811409716615,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#2",
+          "score": 0.7318999112936687,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#3",
+          "score": 0.6810404010867848,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.5951591148499591,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q029",
+      "type": "factoid",
+      "question": "Со скольких лет можно участвовать в хакатоне?",
+      "latency_ms": 1847.8,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.7592567470347648,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.7177888399991883,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#2",
+          "score": 0.6696117528232532,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#3",
+          "score": 0.643282771110553,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#2",
+          "score": 0.5621832386792085,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q030",
+      "type": "multi_hop",
+      "question": "Сколько минут отведено на выступление команды и на вопросы жюри?",
+      "latency_ms": 1841.4,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#2",
+          "score": 0.7572132400607409,
+          "covers": [
+            0,
+            1
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.7318377393243267,
+          "covers": [
+            0,
+            1
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.7089448012959426,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#3",
+          "score": 0.6593981948785008,
+          "covers": []
+        },
+        {
+          "chunk": "logging_guide.txt#0",
+          "score": 0.5945149095879103,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q031",
+      "type": "factoid",
+      "question": "Какую долю оценки занимает техническая часть проекта?",
+      "latency_ms": 1320.5,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#2",
+          "score": 0.7048374829266277,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.6304103732109473,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.6219987498523092,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#3",
+          "score": 0.609916272734486,
+          "covers": []
+        },
+        {
+          "chunk": "kettle_manual.txt#0",
+          "score": 0.5579923654799729,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q032",
+      "type": "factoid",
+      "question": "Сколько денег получает команда, занявшая второе место?",
+      "latency_ms": 2144.3,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.6666666666666666,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#3",
+          "score": 0.6937173422406631,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#2",
+          "score": 0.6217059743037164,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5575497872979172,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.5444903267645096,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#1",
+          "score": 0.5292770862579383,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q033",
+      "type": "factoid",
+      "question": "Во сколько в воскресенье нужно сдать работы?",
+      "latency_ms": 1843.4,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.6258566152455635,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.5691941646603753,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.5571230973610414,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#2",
+          "score": 0.5491829993288675,
+          "covers": []
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.5464221669117846,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q034",
+      "type": "factoid",
+      "question": "Можно ли взять на хакатон свой готовый проект?",
+      "latency_ms": 1467.1,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "ndcg@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.2,
+        "ndcg@5": 1.0,
+        "mrr": 1.0
+      },
+      "top_chunks": [
+        {
+          "chunk": "hackathon_rules.txt#1",
+          "score": 0.7855997341156546,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "hackathon_rules.txt#0",
+          "score": 0.762700361722677,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#2",
+          "score": 0.7292391937550671,
+          "covers": []
+        },
+        {
+          "chunk": "hackathon_rules.txt#3",
+          "score": 0.6846032770758779,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.6046196333254308,
+          "covers": []
+        }
+      ]
+    },
+    {
+      "id": "q036",
+      "type": "multi_hop",
+      "question": "За сколько дней надо подать заявление на отпуск и за сколько предупредить о расторжении аренды?",
+      "latency_ms": 2016.8,
+      "unmatched_evidence": [],
+      "scores": {
+        "recall@1": 0.0,
+        "precision@1": 0.0,
+        "ndcg@1": 0.0,
+        "recall@3": 0.5,
+        "precision@3": 0.3333333333333333,
+        "ndcg@3": 0.3065735963827292,
+        "recall@5": 1.0,
+        "precision@5": 0.4,
+        "ndcg@5": 0.5706417189553201,
+        "mrr": 0.3333333333333333
+      },
+      "top_chunks": [
+        {
+          "chunk": "vacation_policy.txt#1",
+          "score": 0.7470516189055096,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#3",
+          "score": 0.7301299581357859,
+          "covers": []
+        },
+        {
+          "chunk": "vacation_policy.txt#0",
+          "score": 0.7245167813187473,
+          "covers": [
+            0
+          ]
+        },
+        {
+          "chunk": "lease_agreement.txt#3",
+          "score": 0.7228015546205518,
+          "covers": [
+            1
+          ]
+        },
+        {
+          "chunk": "vacation_policy.txt#2",
+          "score": 0.7025328970788992,
+          "covers": []
+        }
+      ]
+    }
+  ]
+}
