@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -26,3 +27,26 @@ class DocumentUploadResponse(BaseModel):
     filename: str
     chunks_count: int
     status: str
+
+
+class DocumentListItem(BaseModel):
+    document_id: uuid.UUID
+    filename: str
+    created_at: datetime
+    status: str
+    chunks_count: int
+
+
+class DocumentListResponse(BaseModel):
+    items: list[DocumentListItem]
+    offset: int
+    limit: int
+    total: int
+
+
+class DocumentStatusResponse(BaseModel):
+    document_id: uuid.UUID
+    filename: str
+    created_at: datetime
+    status: str
+    chunks_count: int
