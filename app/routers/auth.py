@@ -21,6 +21,7 @@ from app.schemas.auth import (
 
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
+_DUMMY_PASSWORD_HASH = hash_password("dummy-password-used-only-for-timing")
 
 
 @router.post(
@@ -88,6 +89,11 @@ async def login(
     )
 
     if user is None:
+        await run_in_threadpool(
+            verify_password,
+            request.password,
+            _DUMMY_PASSWORD_HASH,
+        )
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password",

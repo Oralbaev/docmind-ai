@@ -1,5 +1,6 @@
 ﻿alembic==1.20.1
 fastapi==0.162.2
+httpx==0.28.1
 google-genai==3.0.0
 langgraph==1.2.20
 pgvector==0.5.1
@@ -11,4 +12,6 @@ python-docx==1.2.0
 python-multipart==0.0.33
 pytest==9.2.0
 SQLAlchemy==2.1.8
+structlog==26.1.0
+tenacity==9.1.4
 uvicorn==0.54.0
