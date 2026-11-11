@@ -11,7 +11,6 @@ from fastapi import (
     APIRouter,
     Depends,
     File,
-    Form,
     HTTPException,
     UploadFile,
     status,
@@ -22,7 +21,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
-from app.models.user import User
 from app.models.document import Document
 from app.models.document_chunk import DocumentChunk
 from app.schemas.document import (
