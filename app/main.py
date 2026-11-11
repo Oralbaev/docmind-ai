@@ -26,7 +26,10 @@ app = FastAPI(
     description="AI-powered document assistant using RAG",
     version="0.1.0",
 )
-app.add_middleware(RequestSecurityMiddleware)
+app.add_middleware(
+    RequestSecurityMiddleware,
+    trust_proxy_headers=settings.trust_proxy_headers,
+)
 if settings.cors_allowed_origins.strip():
     app.add_middleware(
         CORSMiddleware,

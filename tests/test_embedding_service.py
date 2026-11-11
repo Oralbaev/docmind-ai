@@ -14,6 +14,8 @@ class FakeModels:
 
     async def embed_content(self, **kwargs):
         self.calls.append(kwargs)
+        if isinstance(self.response, list):
+            return self.response.pop(0)
         return self.response
 
 
@@ -48,6 +50,20 @@ def test_batch_embedding_empty_input_skips_provider():
 
     assert asyncio.run(service.embed_documents([])) == []
     assert models.calls == []
+
+
+def test_large_batch_is_split_without_reordering():
+    vectors = [[float(i)] * EMBEDDING_DIMENSIONS for i in range(101)]
+    responses = [
+        SimpleNamespace(embeddings=[SimpleNamespace(values=v) for v in vectors[:100]]),
+        SimpleNamespace(embeddings=[SimpleNamespace(values=vectors[100])]),
+    ]
+    service, models = make_service(responses)
+
+    result = asyncio.run(service.embed_documents([f"chunk-{i}" for i in range(101)]))
+
+    assert result == vectors
+    assert [len(call["contents"]) for call in models.calls] == [100, 1]
 
 
 def test_upload_signature_checks_extension_against_content():

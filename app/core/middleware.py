@@ -12,11 +12,19 @@ import structlog
 class RequestSecurityMiddleware:
     """Apply lightweight per-process limits to authentication and RAG routes."""
 
-    def __init__(self, app, auth_limit: int = 15, rag_limit: int = 30, window: int = 60):
+    def __init__(
+        self,
+        app,
+        auth_limit: int = 15,
+        rag_limit: int = 30,
+        window: int = 60,
+        trust_proxy_headers: bool = False,
+    ):
         self.app = app
         self.auth_limit = auth_limit
         self.rag_limit = rag_limit
         self.window = window
+        self.trust_proxy_headers = trust_proxy_headers
         self.requests: dict[tuple[str, str], deque[float]] = defaultdict(deque)
         self.lock = asyncio.Lock()
 
@@ -42,6 +50,10 @@ class RequestSecurityMiddleware:
         if prefix:
             client = scope.get("client")
             ip = client[0] if client else "unknown"
+            if self.trust_proxy_headers:
+                forwarded = headers.get(b"x-forwarded-for", b"").decode("latin1")
+                if forwarded:
+                    ip = forwarded.split(",", 1)[0].strip()
             limit = self.auth_limit if prefix == "/auth" else self.rag_limit
             now = time.monotonic()
             async with self.lock:

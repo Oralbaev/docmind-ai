@@ -5,6 +5,7 @@ from app.core.config import settings
 
 
 EMBEDDING_DIMENSIONS = 768
+EMBEDDING_BATCH_SIZE = 100
 
 
 class EmbeddingService:
@@ -50,22 +51,24 @@ class EmbeddingService:
         if any(not text.strip() for text in texts):
             raise ValueError("Texts cannot contain empty items")
 
-        response = await self.client.aio.models.embed_content(
-            model=settings.gemini_embedding_model,
-            contents=texts,
-            config=types.EmbedContentConfig(
-                output_dimensionality=EMBEDDING_DIMENSIONS,
-            ),
-        )
-        if not response.embeddings or len(response.embeddings) != len(texts):
-            raise RuntimeError("Gemini returned an invalid number of embeddings")
-
         vectors = []
-        for embedding in response.embeddings:
-            values = embedding.values
-            if values is None or len(values) != EMBEDDING_DIMENSIONS:
-                raise RuntimeError("Invalid embedding dimensions")
-            vectors.append(list(values))
+        for start in range(0, len(texts), EMBEDDING_BATCH_SIZE):
+            batch = texts[start : start + EMBEDDING_BATCH_SIZE]
+            response = await self.client.aio.models.embed_content(
+                model=settings.gemini_embedding_model,
+                contents=batch,
+                config=types.EmbedContentConfig(
+                    output_dimensionality=EMBEDDING_DIMENSIONS,
+                ),
+            )
+            if not response.embeddings or len(response.embeddings) != len(batch):
+                raise RuntimeError("Gemini returned an invalid number of embeddings")
+
+            for embedding in response.embeddings:
+                values = embedding.values
+                if values is None or len(values) != EMBEDDING_DIMENSIONS:
+                    raise RuntimeError("Invalid embedding dimensions")
+                vectors.append(list(values))
         return vectors
 
     async def close(self):
