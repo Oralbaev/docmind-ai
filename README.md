@@ -1,72 +1,75 @@
 # DocMind AI
 
-DocMind AI — личный помощник для поиска ответов в загруженных документах. API
-принимает PDF, DOCX и TXT, извлекает текст, делит его на фрагменты, получает
-эмбеддинги Gemini и хранит их в PostgreSQL с pgvector. Пользователь может задать
-вопрос, получить ответ со ссылками на исходные фрагменты и посмотреть ход работы
-агента.
+DocMind AI is a personal assistant for finding answers in uploaded documents. The
+API accepts PDF, DOCX and TXT files, extracts the text, splits it into chunks,
+gets Gemini embeddings and stores them in PostgreSQL with pgvector. A user can ask
+a question, get an answer with references to the source chunks and inspect the
+agent's workflow.
 
-## Возможности
+## Features
 
-- Регистрация и JWT-вход; документы и поиск изолированы по пользователю.
-- Семантический поиск и обычный RAG через `POST /rag/ask`.
-- Agentic RAG через `POST /rag/agent`: анализ вопроса, несколько поисковых
-  формулировок, оценка фрагментов и проверка опоры ответа на источники.
-- Загрузка PDF/DOCX/TXT до 10 MiB, проверка формата, дедупликация, список,
-  состояние и удаление документов.
-- React SPA с чатом, источниками и раскрываемым trace агента.
+- Registration and JWT login; documents and search are isolated per user.
+- Semantic search and plain RAG via `POST /rag/ask`.
+- Agentic RAG via `POST /rag/agent`: question analysis, multiple search
+  formulations, chunk grading and a check that the answer is grounded in the
+  sources.
+- Upload of PDF/DOCX/TXT up to 10 MiB, format validation, deduplication, listing,
+  status and deletion of documents.
+- React SPA with a chat, sources and an expandable agent trace.
 
-## Архитектура
+## Architecture
 
 ```mermaid
 flowchart LR
-    U[Пользователь] --> UI[React SPA]
+    U[User] --> UI[React SPA]
     UI --> API[FastAPI]
-    API --> AUTH[JWT и user scope]
-    API --> PARSE[Извлечение текста]
+    API --> AUTH[JWT and user scope]
+    API --> PARSE[Text extraction]
     PARSE --> CHUNK[Sentence-aware chunker]
     CHUNK --> EMB[Gemini embeddings]
     EMB --> DB[(PostgreSQL + pgvector)]
-    API --> SEARCH[Векторный поиск]
+    API --> SEARCH[Vector search]
     SEARCH --> DB
-    SEARCH --> RAG[Генерация ответа Gemini]
-    RAG --> SRC[Ответ и источники]
+    SEARCH --> RAG[Gemini answer generation]
+    RAG --> SRC[Answer and sources]
     API --> AGENT[LangGraph: analyze → retrieve → grade → generate → check]
     AGENT --> SEARCH
     AGENT --> SRC
 ```
 
-Подробнее: [архитектура](docs/ARCHITECTURE.md), [оценка](docs/EVALUATION.md).
+More details: [architecture](docs/ARCHITECTURE.md), [evaluation](docs/EVALUATION.md).
 
-## Быстрый запуск в Docker
+## Quick start with Docker
 
-Нужны Docker Engine и Docker Compose. Создайте локальный env-файл и задайте
-уникальные секреты:
+You need Docker Engine and Docker Compose. Create a local env file and set unique
+secrets:
 
 ```bash
 cp .env.example .env
 ```
 
-Замените `POSTGRES_PASSWORD`, `GEMINI_API_KEY`, `GEMINI_LLM_MODEL` и
-`JWT_SECRET_KEY`. Ключ JWT должен быть случайным и храниться только в `.env`.
-Затем запустите приложение:
+Replace `POSTGRES_PASSWORD`, `GEMINI_API_KEY`, `GEMINI_LLM_MODEL` and
+`JWT_SECRET_KEY`. The JWT key must be random and stored only in `.env`.
+Then start the application:
 
 ```bash
 docker compose up --build
 ```
 
-Сервис `migrate` применит Alembic-миграции после готовности базы и до запуска
-API. Интерфейс будет доступен на <http://localhost:3000>, документация API —
-<http://localhost:3000/api/docs>, liveness — <http://localhost:3000/api/health>,
-readiness — <http://localhost:3000/api/ready>. PostgreSQL публикуется только на
-loopback-порту 5433.
+The `migrate` service applies Alembic migrations once the database is ready and
+before the API starts. The UI will be available at <http://localhost:3000>, the
+API docs at <http://localhost:3000/api/docs>, liveness at
+<http://localhost:3000/api/health> and readiness at
+<http://localhost:3000/api/ready>. PostgreSQL is published only on the loopback
+port 5433.
 
-Для остановки используйте `docker compose down`. Данные базы остаются в volume
-`postgres_data`; `docker compose down -v` удалит этот volume вместе с данными.
+To stop, use `docker compose down`. The database data stays in the
+`postgres_data` volume; `docker compose down -v` deletes this volume together with
+the data.
 
-## Локальный запуск API
+## Running the API locally
 
-1. Создайте виртуальное окружение и установите закреплённые зависимости:
+1. Create a virtual environment and install the pinned dependencies:
 
    ```bash
    python -m venv .venv
@@ -75,17 +78,17 @@ loopback-порту 5433.
    python -m pip install -r requirements.txt
    ```
 
-2. Запустите PostgreSQL с pgvector (можно поднять только сервис `db` через
-   `docker compose up -d db`), скопируйте `.env.example` в `.env` и настройте
-   `DATABASE_URL`, Gemini и JWT.
-3. Примените миграции и запустите API:
+2. Start PostgreSQL with pgvector (you can bring up just the `db` service with
+   `docker compose up -d db`), copy `.env.example` to `.env` and configure
+   `DATABASE_URL`, Gemini and JWT.
+3. Apply the migrations and start the API:
 
    ```bash
    python -m alembic upgrade head
    uvicorn app.main:app --reload
    ```
 
-4. Для интерфейса в отдельном терминале:
+4. For the UI, in a separate terminal:
 
    ```bash
    cd frontend
@@ -93,84 +96,85 @@ loopback-порту 5433.
    npm run dev
    ```
 
-   Vite направляет `/api/*` на локальный API `localhost:8000`.
+   Vite proxies `/api/*` to the local API at `localhost:8000`.
 
-## Переменные окружения
+## Environment variables
 
-| Переменная | Назначение |
+| Variable | Purpose |
 |---|---|
-| `DATABASE_URL` | SQLAlchemy URL, драйвер `postgresql+psycopg` |
-| `POSTGRES_PASSWORD` | Пароль PostgreSQL в Compose |
-| `GEMINI_API_KEY` | Ключ Gemini; не добавляйте его в Git |
-| `GEMINI_EMBEDDING_MODEL` | Модель эмбеддингов, по умолчанию `gemini-embedding-2` |
-| `GEMINI_LLM_MODEL` | Модель генерации, поддерживаемая вашим Gemini API |
-| `JWT_SECRET_KEY` | Случайный секрет подписи access-токенов |
-| `JWT_ALGORITHM` | Алгоритм JWT, по умолчанию `HS256` |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | Срок действия access-токена |
-| `CORS_ALLOWED_ORIGINS` | Список разрешённых origins через запятую; по умолчанию cross-origin отключён |
-| `TRUST_PROXY_HEADERS` | Принимать IP клиента из `X-Forwarded-For`; включать только за доверенным reverse proxy |
+| `DATABASE_URL` | SQLAlchemy URL, driver `postgresql+psycopg` |
+| `POSTGRES_PASSWORD` | PostgreSQL password in Compose |
+| `GEMINI_API_KEY` | Gemini key; do not commit it to Git |
+| `GEMINI_EMBEDDING_MODEL` | Embedding model, `gemini-embedding-2` by default |
+| `GEMINI_LLM_MODEL` | Generation model supported by your Gemini API |
+| `JWT_SECRET_KEY` | Random secret for signing access tokens |
+| `JWT_ALGORITHM` | JWT algorithm, `HS256` by default |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Access token lifetime |
+| `CORS_ALLOWED_ORIGINS` | Comma-separated list of allowed origins; cross-origin is disabled by default |
+| `TRUST_PROXY_HEADERS` | Accept the client IP from `X-Forwarded-For`; enable only behind a trusted reverse proxy |
 
-Gemini-вызовы имеют таймаут 30 секунд и до трёх попыток для временных ошибок.
-Ограничения частоты запросов `/auth/*` и `/rag/*` хранятся в памяти одного
-процесса; при нескольких workers каждый процесс ведёт собственный счётчик.
+Gemini calls have a 30-second timeout and up to three attempts for transient
+errors. Rate limits for `/auth/*` and `/rag/*` are kept in the memory of a single
+process; with several workers each process keeps its own counter.
 
 ## API
 
-Все документы и RAG-запросы требуют `Authorization: Bearer <token>`.
+All document and RAG requests require `Authorization: Bearer <token>`.
 
-| Метод и путь | Назначение |
+| Method and path | Purpose |
 |---|---|
-| `POST /auth/register` | Создать пользователя |
-| `POST /auth/login` | Получить JWT; одинаковая ошибка для неизвестного email и неверного пароля |
-| `POST /documents` | Загрузить документ как multipart-поле `file` |
-| `GET /documents?offset=0&limit=20` | Страница списка документов и число фрагментов |
-| `GET /documents/{document_id}` | Состояние одного документа |
-| `DELETE /documents/{document_id}` | Удалить документ и связанные фрагменты |
-| `POST /documents/search` | Найти похожие фрагменты |
-| `POST /rag/ask` | Обычный RAG; контракт ответа сохранён |
-| `POST /rag/agent` | Agentic RAG с `outcome` и `trace` |
-| `GET /health` | Liveness без проверки базы |
-| `GET /ready` | Готовность с проверкой PostgreSQL |
+| `POST /auth/register` | Create a user |
+| `POST /auth/login` | Get a JWT; the same error for an unknown email and a wrong password |
+| `POST /documents` | Upload a document as the multipart field `file` |
+| `GET /documents?offset=0&limit=20` | A page of the document list with chunk counts |
+| `GET /documents/{document_id}` | Status of a single document |
+| `DELETE /documents/{document_id}` | Delete a document and its chunks |
+| `POST /documents/search` | Find similar chunks |
+| `POST /rag/ask` | Plain RAG; the response contract is unchanged |
+| `POST /rag/agent` | Agentic RAG with `outcome` and `trace` |
+| `GET /health` | Liveness without a database check |
+| `GET /ready` | Readiness with a PostgreSQL check |
 
-Для `/rag/ask`, `/rag/agent` и поиска передавайте JSON вида
-`{"question":"..."}` (для поиска — `{"query":"..."}`).
+For `/rag/ask`, `/rag/agent` and search, send JSON like
+`{"question":"..."}` (for search: `{"query":"..."}`).
 
-## Проверки и оценка
+## Checks and evaluation
 
-Запуск offline-тестов:
+Run the offline tests:
 
 ```bash
 python -m pytest tests -v
 ruff check app tests evaluation
 ```
 
-GitHub Actions запускает pytest, Ruff, Semgrep, pip-audit и сборки обоих Docker
-образов. Unit-тесты агента используют заглушки и не обращаются к Gemini.
+GitHub Actions runs pytest, Ruff, Semgrep, pip-audit and builds both Docker
+images. The agent unit tests use stubs and do not call Gemini.
 
-Результаты поиска и сравнения RAG собраны в
-[evaluation/RESULTS.md](evaluation/RESULTS.md). Sentence-aware конфигурация
-600/120 принята: Precision@1 0.871, MRR 0.925, nDCG@5 0.946 на 31 вопросе.
-Hybrid FTS + RRF эксперимент дал Precision@1 0.774, MRR 0.887 и nDCG@5 0.917,
-поэтому он отклонён и не подключён к API.
+Retrieval and RAG comparison results are collected in
+[evaluation/RESULTS.md](evaluation/RESULTS.md). The sentence-aware 600/120
+configuration was adopted: Precision@1 0.871, MRR 0.925, nDCG@5 0.946 on 31
+questions. The hybrid FTS + RRF experiment gave Precision@1 0.774, MRR 0.887 and
+nDCG@5 0.917, so it was rejected and is not wired into the API.
 
-Для нового сравнения baseline и агента нужны запущенная БД, пользователь
-`eval@example.com`, индексированные документы из локальной игнорируемой папки
-`data/eval_docs/` и действующий Gemini API key:
+A new comparison of the baseline and the agent needs a running database, the
+`eval@example.com` user, documents indexed from the locally ignored
+`data/eval_docs/` folder and a valid Gemini API key:
 
 ```bash
 python -m evaluation.agent_runner
 ```
 
-Отчёт появится в `evaluation/reports/agent_vs_baseline.json`. Без внешней БД и
-Gemini-ключа эти метрики не моделируются; на момент текущей проверки live-прогон
-не выполнен, потому что база недоступна.
+The report will appear in `evaluation/reports/agent_vs_baseline.json`. Without an
+external database and a Gemini key these metrics are not simulated; at the time of
+this check the live run has not been performed because the database was
+unavailable.
 
-## Ограничения и дальнейшая работа
+## Limitations and future work
 
-- Текущая оценка ответа по `expected_facts` проверяет точное вхождение строки;
-  корректная перефразировка может не попасть в метрику.
-- In-memory rate limiter не синхронизируется между процессами.
-- Живые интеграционные проверки требуют Gemini и PostgreSQL; локально проверены
-  offline-тесты и сборка frontend.
-- Дальнейшие направления: распределённый rate limiter, более сильная оценка
-  семантической точности ответов и reranking после отдельного сравнения на корпусе.
+- The current answer evaluation by `expected_facts` checks for an exact string
+  match; a correct paraphrase may not be counted by the metric.
+- The in-memory rate limiter is not synchronized between processes.
+- Live integration checks require Gemini and PostgreSQL; only the offline tests
+  and the frontend build were verified locally.
+- Next steps: a distributed rate limiter, a stronger evaluation of the semantic
+  accuracy of answers, and reranking after a separate comparison on the corpus.
