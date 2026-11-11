@@ -15,7 +15,7 @@ from evaluation.dataset import load_dataset
 
 DATASET = Path(__file__).parent / "golden_dataset.json"
 KS = (1, 3, 5, 10)
-POOL = 50  # глубина выборки для определения релевантных чанков
+POOL = 500  # глубина выборки для определения релевантных чанков
 
 
 def _norm(s: str) -> str:
@@ -32,22 +32,30 @@ def covered_evidence(chunk: dict, evidence: list[dict]) -> set[int]:
     }
 
 
-async def evaluate_question(q: dict, top_k: int) -> dict:
+async def evaluate_question(q: dict, top_k: int, mode: str) -> dict:
     evidence = q["evidence"]
 
+    # Эталон релевантности: по полному векторному списку, не зависит от режима
     t0 = time.perf_counter()
-    pool = await retrieve(q["question"], max(top_k, POOL))
-    latency_ms = (time.perf_counter() - t0) * 1000
+    pool = await retrieve(q["question"], POOL, "vector")
+    pool_ms = (time.perf_counter() - t0) * 1000
 
-    covers = [covered_evidence(c, evidence) for c in pool]
-    ids = [f'{c["filename"]}#{c["chunk_index"]}' for c in pool]
+    pool_covers = [covered_evidence(c, evidence) for c in pool]
+    pool_ids = [f'{c["filename"]}#{c["chunk_index"]}' for c in pool]
+    relevant = {cid for cid, cov in zip(pool_ids, pool_covers) if cov}
+    unmatched = sorted(set(range(len(evidence))) - set().union(*pool_covers))
 
-    # Чанк релевантен, если содержит хотя бы одну цитату
-    relevant = {cid for cid, cov in zip(ids, covers) if cov}
-    # Цитаты, которых нет ни в одном чанке (ошибка разметки или парсера)
-    unmatched = sorted(set(range(len(evidence))) - set().union(*covers))
+    # Проверяемый поиск
+    if mode == "vector":
+        results, latency_ms = pool[:top_k], pool_ms
+    else:
+        t0 = time.perf_counter()
+        results = await retrieve(q["question"], top_k, mode)
+        latency_ms = (time.perf_counter() - t0) * 1000
 
-    retrieved = ids[:top_k]
+    covers = [covered_evidence(c, evidence) for c in results]
+    retrieved = [f'{c["filename"]}#{c["chunk_index"]}' for c in results]
+
     scores = {}
     for k in KS:
         if k > top_k:
@@ -67,7 +75,7 @@ async def evaluate_question(q: dict, top_k: int) -> dict:
         "scores": scores,
         "top_chunks": [
             {"chunk": cid, "score": c.get("score"), "covers": sorted(cov)}
-            for cid, cov, c in zip(ids[:top_k], covers[:top_k], pool[:top_k])
+            for cid, cov, c in zip(retrieved, covers, results)
         ],
     }
 
@@ -91,6 +99,7 @@ async def amain() -> None:
     p.add_argument("--top-k", type=int, default=10)
     p.add_argument("--out", default="evaluation/reports/baseline.json")
     p.add_argument("--note", default="")
+    p.add_argument("--mode", choices=["vector", "hybrid"], default="vector")
     args = p.parse_args()
 
     data = load_dataset(DATASET)
@@ -98,7 +107,7 @@ async def amain() -> None:
 
     rows = []
     for q in answerable:
-        rows.append(await evaluate_question(q, args.top_k))
+        rows.append(await evaluate_question(q, args.top_k, args.mode))
         await asyncio.sleep(0.3)  # бережём лимиты Gemini embeddings
 
     warnings = [
@@ -113,6 +122,7 @@ async def amain() -> None:
 
     report = {
         "meta": {
+            "mode": args.mode,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "git_commit": git_commit(),
             "top_k": args.top_k,
