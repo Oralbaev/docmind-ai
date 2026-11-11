@@ -120,7 +120,7 @@ class AgentNodes:
                 system_instruction=system,
             )
         except Exception as exc:  # noqa: BLE001
-            logger.warning("Agent LLM JSON call failed: %s", exc)
+            logger.warning("Agent LLM JSON call failed: %s", type(exc).__name__)
             return None
 
         return data if isinstance(data, dict) else None
@@ -219,13 +219,26 @@ class AgentNodes:
         }
 
     async def generate(self, state: AgentState) -> dict:
-        answer = await self.llm.generate_answer(
-            question=state["question"],
-            context=_build_context(state["relevant"]),
-        )
+        try:
+            answer = await self.llm.generate_answer(
+                question=state["question"],
+                context=_build_context(state["relevant"]),
+            )
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("Agent answer generation failed: %s", type(exc).__name__)
+            return {
+                "answer": "",
+                "outcome": "no_answer",
+                "trace": ["generate: provider unavailable"],
+            }
         return {"answer": answer, "trace": ["generate: answer produced"]}
 
     async def check(self, state: AgentState) -> dict:
+        if state.get("outcome") == "no_answer":
+            return {
+                "outcome": "no_answer",
+                "trace": ["check: skipped, generation failed"],
+            }
         data = await self._json(
             CHECK_SYSTEM,
             check_prompt(
@@ -297,4 +310,6 @@ class AgentNodes:
         return "fallback"
 
     def route_after_check(self, state: AgentState) -> str:
+        if state.get("outcome") == "no_answer":
+            return "fallback"
         return "done" if state["outcome"] == "answered" else "fallback"

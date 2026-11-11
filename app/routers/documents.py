@@ -1,7 +1,10 @@
+import asyncio
 import uuid
 import hashlib
+from io import BytesIO
 from pathlib import Path
 from typing import Annotated
+from zipfile import BadZipFile, ZipFile
 
 
 from fastapi import (
@@ -44,7 +47,29 @@ from app.core.dependencies import CurrentUser
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
 MAX_FILE_SIZE = 10 * 1024 * 1024
+MAX_DOCUMENT_PAGES = 500
+PARSER_TIMEOUT_SECONDS = 30
 ALLOWED_EXTENSIONS = {".pdf", ".docx", ".txt"}
+
+
+def _validate_signature(filename: str, content: bytes) -> bool:
+    extension = Path(filename).suffix.lower()
+    if extension == ".pdf":
+        return content.startswith(b"%PDF-")
+    if extension == ".txt":
+        try:
+            content.decode("utf-8-sig")
+            return True
+        except UnicodeDecodeError:
+            return False
+    if extension == ".docx":
+        try:
+            with ZipFile(BytesIO(content)) as archive:
+                names = set(archive.namelist())
+            return {"[Content_Types].xml", "word/document.xml"}.issubset(names)
+        except (BadZipFile, OSError):
+            return False
+    return False
 
 
 @router.post(
@@ -76,6 +101,8 @@ async def upload_document(
             status_code=413,
             detail="File is too large",
         )
+    if not _validate_signature(filename, content):
+        raise HTTPException(status_code=415, detail="File content does not match its extension")
 
     content_hash = hashlib.sha256(user.id.bytes + content).hexdigest()
     existing = await db.scalar(
@@ -85,11 +112,12 @@ async def upload_document(
         raise HTTPException(status_code=409, detail="This document is already uploaded")
 
     try:
-        pages = await run_in_threadpool(
-            parse_document,
-            filename,
-            content,
+        pages = await asyncio.wait_for(
+            run_in_threadpool(parse_document, filename, content),
+            timeout=PARSER_TIMEOUT_SECONDS,
         )
+    except TimeoutError as exc:
+        raise HTTPException(status_code=408, detail="Document parsing timed out") from exc
     except Exception as exc:
         raise HTTPException(
             status_code=422,
@@ -103,6 +131,8 @@ async def upload_document(
             status_code=422,
             detail="Document contains no extractable text",
         )
+    if len(pages) > MAX_DOCUMENT_PAGES:
+        raise HTTPException(status_code=413, detail="Document has too many pages")
 
     service = EmbeddingService()
 

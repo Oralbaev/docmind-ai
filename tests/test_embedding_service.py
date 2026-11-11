@@ -4,6 +4,7 @@ from types import SimpleNamespace
 import pytest
 
 from app.services.embedding_service import EMBEDDING_DIMENSIONS, EmbeddingService
+from app.routers.documents import _validate_signature
 
 
 class FakeModels:
@@ -47,3 +48,10 @@ def test_batch_embedding_empty_input_skips_provider():
 
     assert asyncio.run(service.embed_documents([])) == []
     assert models.calls == []
+
+
+def test_upload_signature_checks_extension_against_content():
+    assert _validate_signature("notes.txt", "Привет".encode())
+    assert _validate_signature("scan.pdf", b"%PDF-1.7")
+    assert not _validate_signature("scan.pdf", b"not a pdf")
+    assert not _validate_signature("notes.txt", b"\xff")
