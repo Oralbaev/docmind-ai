@@ -1,3 +1,4 @@
+import json
 
 from google import genai
 from google.genai import types
@@ -48,6 +49,35 @@ class LLMService:
             raise RuntimeError("Gemini returned an empty answer")
 
         return response.text.strip()
+
+    async def generate_json(
+        self,
+        prompt: str,
+        system_instruction: str,
+        max_output_tokens: int = 512,
+    ) -> dict:
+        """Ответ модели строго в JSON. Нужен узлам агента (разбор запроса,
+        оценка чанков, проверка ответа)."""
+        response = await self.client.aio.models.generate_content(
+            model=settings.gemini_llm_model,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=system_instruction,
+                temperature=0,
+                max_output_tokens=max_output_tokens,
+                response_mime_type="application/json",
+            ),
+        )
+
+        if not response.text:
+            raise RuntimeError("Gemini returned an empty JSON response")
+
+        data = json.loads(response.text)
+
+        if not isinstance(data, dict):
+            raise ValueError("Gemini returned JSON that is not an object")
+
+        return data
 
     async def close(self):
         await self.client.aio.aclose()
