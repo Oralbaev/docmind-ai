@@ -35,3 +35,6 @@ secrets/
 *.pem
 
 reports/
+
+age-key.txt
+secrets.yaml
