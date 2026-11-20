@@ -56,7 +56,12 @@ class EmbeddingService:
             batch = texts[start : start + EMBEDDING_BATCH_SIZE]
             response = await self.client.aio.models.embed_content(
                 model=settings.gemini_embedding_model,
-                contents=batch,
+                contents=[
+                    types.Content(
+                         parts=[types.Part.from_text(text=text)]
+                    )
+                    for text in batch
+                ],
                 config=types.EmbedContentConfig(
                     output_dimensionality=EMBEDDING_DIMENSIONS,
                 ),
