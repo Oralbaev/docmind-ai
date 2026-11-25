@@ -23,32 +23,24 @@ integration, cloud deployment, and security.
 
 ## Demo
 
-### Document Question Answering
+### Authentication
 
-Upload documents and ask questions. The system retrieves relevant passages
-and generates answers with references to the original sources.
+Secure user registration and JWT-based authentication.
 
-![Document Question Answering](docs/screenshots/chat.png)
+![Authentication](docs/screenshots/auth.PNG)
 
-### Agentic RAG
+### Main Interface
 
-Inspect the agent's execution trace, including query analysis, retrieval,
-relevance grading, answer generation, and grounding verification.
+Upload documents, manage your knowledge base,
+and ask questions through the chat interface.
 
-![Agentic RAG](docs/screenshots/agent-trace.png)
+![Main Interface](docs/screenshots/main.PNG)
 
-<details>
-<summary>More screenshots</summary>
+### AI Response
 
-### Document Management
+Document-grounded answers generated using RAG.
 
-![Document Management](docs/screenshots/documents.png)
-
-### REST API Documentation
-
-![Swagger UI](docs/screenshots/swagger.png)
-
-</details>
+![AI Response](docs/screenshots/response.PNG)
 
 ## Features
 
